@@ -5,6 +5,64 @@ const { isValid, users } = require('./auth_users.js');
 
 const public_users = express.Router();
 
+const axios = require('axios');
+
+public_users.get("/promise/isbn/:isbn", (req, res) => {
+    const isbn = req.params.isbn;
+
+    axios.get(`http://localhost:5000/isbn/${isbn}`)
+        .then(response => {
+            return res.status(200).json(response.data);
+        })
+        .catch(error => {
+            return res.status(500).json({
+                message: "Error fetching book by ISBN",
+                error: error.message
+            });
+        });
+});
+
+
+// Task 10: Get book list using async/await with Axios
+// Task 10: Async/Await
+public_users.get("/async/books", async (req, res) => {
+    try {
+        const response = await axios.get("http://localhost:5000/");
+        return res.status(200).json(response.data);
+    } catch (error) {
+        return res.status(500).json({ message: "Error fetching books", error: error.message });
+    }
+});
+
+public_users.get("/async/isbn/:isbn", async (req, res) => {
+    const isbn = req.params.isbn;
+
+    try {
+        const response = await axios.get(`http://localhost:5000/isbn/${isbn}`);
+        return res.status(200).json(response.data);
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error fetching book by ISBN",
+            error: error.message
+        });
+    }
+});
+
+
+public_users.get("/promise/books", (req, res) => {
+    axios.get("http://localhost:5000/")
+        .then(response => {
+            return res.status(200).json(response.data);
+        })
+        .catch(error => {
+            return res.status(500).json({ message: "Error fetching books", error: error.message });
+        });
+});
+
+
+
+
+
 public_users.post("/register", (req, res) => {
     const { username, password } = req.body;
 
@@ -54,6 +112,21 @@ public_users.get('/author/:author', (req, res) => {
         return book.author.toLowerCase() === authorParam;
     });
 
+    public_users.get("/async/author/:author", async (req, res) => {
+        const author = req.params.author;
+    
+        try {
+            const response = await axios.get(`http://localhost:5000/author/${author}`);
+            return res.status(200).json(response.data);
+        } catch (error) {
+            return res.status(500).json({
+                message: "Error fetching books by author",
+                error: error.message
+            });
+        }
+    });
+    
+
     console.log("Filtered:", filteredBooks);
 
     if (filteredBooks.length > 0) {
@@ -94,4 +167,9 @@ public_users.get('/review/:isbn', (req, res) => {
     }
 });
 
+
 module.exports.general = public_users;
+
+
+
+
