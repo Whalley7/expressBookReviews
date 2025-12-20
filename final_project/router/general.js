@@ -5,7 +5,6 @@ const { isValid, users } = require('./auth_users.js');
 
 const public_users = express.Router();
 
-// Register a new user
 public_users.post("/register", (req, res) => {
     const { username, password } = req.body;
 
@@ -13,13 +12,14 @@ public_users.post("/register", (req, res) => {
         return res.status(400).json({ message: "Username and password required" });
     }
 
-    if (!isValid(username)) {
-        return res.status(404).json({ message: "User already exists!" });
+    if (isValid(username)) {
+        return res.status(400).json({ message: "User already exists!" });
     }
 
     users.push({ username, password });
     return res.status(200).json({ message: "User successfully registered. Now you can login" });
 });
+
 
 // Get all books
 public_users.get('/', (req, res) => {

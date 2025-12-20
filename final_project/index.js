@@ -41,5 +41,6 @@ app.use("/customer", customer_routes); // auth_users.js routes
 app.use("/", genl_routes);             // general.js routes
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = 5000;
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
