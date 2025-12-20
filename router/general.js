@@ -7,17 +7,25 @@ const public_users = express.Router();
 console.log("General routes loaded");
 
 
-public_users.post("/register", (req,res) => {
-  //Write your code here
-  res.send(JSON.stringify(books,null,4));
-});
-
-// Get the book list available in the shop
-public_users.get('/',function (req, res) {
-  //Write your code here
-  res.send(JSON.stringify(books, null, 4));
-});
-
+public_users.post("/register", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+  
+    // Check if username and password are provided
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username and password are required" });
+    }
+  
+    // Check if user already exists
+    if (users.some(user => user.username === username)) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+  
+    // Register new user
+    users.push({ username: username, password: password });
+    return res.status(200).json({ message: "User successfully registered. Now you can login" });
+  });
+  
 
 public_users.get('/author/:author', function (req, res) {
     const author = req.params.author.toLowerCase().trim();

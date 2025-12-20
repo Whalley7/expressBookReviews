@@ -55,7 +55,7 @@ app.post("/register", (req, res) => {
 });
 
 
-const PORT =3000;
+const PORT = 5050;
 
 app.use("/customer", customer_routes);
 app.use("/", genl_routes);
