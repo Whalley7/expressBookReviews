@@ -7,6 +7,12 @@ const axios = require('axios');
 
 public_users.use(express.json());
 
+//Task 1:  Get all the books available in the shop
+public_users.get("/", (req, res) => {
+    res.status(200).json(books);
+});
+
+
 //Task 2:  Get the books based on ISBN
 public_users.get('/isbn/:isbn', (req, res) => {
     const isbn = req.params.isbn;
