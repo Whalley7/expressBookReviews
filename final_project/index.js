@@ -25,7 +25,7 @@ app.use("/customer/auth/*", (req, res, next) => {
         jwt.verify(token, "access", (err, user) => {
             if (!err) {
                 req.user = user;
-                next(); // continue to protected route
+                next();
             } else {
                 return res.status(403).json({ message: "User not authenticated" });
             }
@@ -39,7 +39,8 @@ app.use("/customer/auth/*", (req, res, next) => {
 app.use("/customer", customer_routes); // auth_users.js routes
 app.use("/", genl_routes);             // general.js routes
 
-// Start server
+// Start the server
 const PORT = 5000;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
