@@ -7,6 +7,12 @@ const public_users = express.Router();    // Public router
 let books = require("./booksdb.js");
 let users = [];
 
+//Task 1:  Get all books
+public_users.get("/", function (req, res) {
+    return res.status(200).json(books);
+});
+
+
 // Task 2: Get book reviews based on ISBN (PUBLIC)
 public_users.get("/review/:isbn", (req, res) => {
     const isbn = req.params.isbn;
